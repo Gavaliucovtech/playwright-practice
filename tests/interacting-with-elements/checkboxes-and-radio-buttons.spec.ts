@@ -1,17 +1,16 @@
-import { test } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
-test("Checkboxes & Radion Buttons", async ({ page }) => {
+test("Checkboxes and radio buttons", async ({ page }) => {
   await page.goto("https://selectors-practice.onrender.com/");
 
-  //   // Checking a Checkbox
-  await page.check("div.checkbox-group input[value='Option 1']");
+  const checkbox = page.getByRole("checkbox", { name: "Option 1" });
+  await checkbox.check();
+  await expect(checkbox).toBeChecked();
 
-  //   // Wait for 2 seconds to observe the change
-  await page.waitForTimeout(2000);
+  await checkbox.uncheck();
+  await expect(checkbox).not.toBeChecked();
 
-  //   // Unchecking a checkbox
-  await page.uncheck("div.checkbox-group input[value='Option 1']");
-
-  // Selecting a Radio Button
-  await page.getByRole("radio", { name: "Choice A" }).check();
+  const radio = page.getByRole("radio", { name: "Choice A" });
+  await radio.check();
+  await expect(radio).toBeChecked();
 });
